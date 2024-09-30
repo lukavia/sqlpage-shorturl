@@ -32,5 +32,6 @@ SELECT 'table' AS component,
 SELECT 
     sqlpage.protocol() || '://' || sqlpage.header('host') || RTRIM(sqlpage.path(),'manage/index.sql') || '/' || path AS path, 
     url,
+    count as used,
     '[delete](delete.sql?path=' || path || ')' as action
   FROM urls;
