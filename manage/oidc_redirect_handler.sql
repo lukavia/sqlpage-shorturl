@@ -37,7 +37,7 @@ select 'redirect' as component, 'result.sql?error=' || CAST($user_profile->>'err
 
 -- at this point we have $user_profile which contains {"sub":"0cc01234","email_verified":false,"name":"John Smith","preferred_username":"demo","given_name":"John","family_name":"Smith","email":"demo@example.com"}
 
-select 'redirect' as component, 'result.sql?error=User Not Allowed' as link WHERE NOT EXISTS(SELECT 1 FROM users_allowed WHERE email = $user_profile->>'email');
+select 'redirect' as component, 'result.sql?error=User Not Allowed' as link WHERE NOT EXISTS(SELECT 1 FROM users_allowed WHERE $user_profile->>'email' LIKE email);
 
 -- Now we have a valid access token, we can create a session for the user
 -- in our database
