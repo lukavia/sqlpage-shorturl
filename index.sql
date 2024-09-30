@@ -1,0 +1,1 @@
+SELECT 'shell' AS component, 'Short URL' AS title;
