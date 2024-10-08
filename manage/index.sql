@@ -1,5 +1,4 @@
-SELECT 'dynamic' AS component,
-    sqlpage.run_sql('manage/_session.sql') AS properties;
+SET user = sqlpage.run_sql('manage/_session.sql')->>0;
 
 SELECT 'shell' AS component, 'Short URL' AS title,
     (SELECT json_object("title", given_name, "image", picture) FROM user_sessions WHERE session_id = sqlpage.cookie('session_id')) AS menu_item,
