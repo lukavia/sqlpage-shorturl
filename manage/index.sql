@@ -1,11 +1,9 @@
-SET user_email = (SELECT email FROM user_sessions WHERE session_id = sqlpage.cookie('session_id'));
-
-SELECT 'redirect' AS component, 'login.sql' AS link
-    WHERE NOT EXISTS(SELECT * FROM user_sessions WHERE session_id = sqlpage.cookie('session_id'));
+SELECT 'dynamic' AS component,
+    sqlpage.run_sql('manage/_session.sql') AS properties;
 
 SELECT 'shell' AS component, 'Short URL' AS title,
     (SELECT json_object("title", given_name, "image", picture) FROM user_sessions WHERE session_id = sqlpage.cookie('session_id')) AS menu_item,
-    (CASE WHEN $user_email IS NULL THEN 'login' ELSE 'logout' END) AS menu_item;
+    'logout' AS menu_item;
 
 SELECT 'form' AS component,
     iIF($path is null, 'create.sql', 'update.sql?path=' || $path) AS action,

@@ -41,8 +41,8 @@ select 'redirect' as component, 'result.sql?error=User Not Allowed' as link WHER
 
 -- Now we have a valid access token, we can create a session for the user
 -- in our database
-insert into user_sessions(session_id, user_id, email, oidc_token, `name`, given_name, family_name, picture)
-    values(sqlpage.random_string(32), $user_profile->>'sub', $user_profile->>'email', $access_token->>'id_token', $user_profile->>'name', $user_profile->>'given_name', $user_profile->>'family_name', $user_profile->>'picture')
+insert into user_sessions(session_id, user_id, email, oidc_token, `name`, given_name, family_name, picture, last_used)
+    values(sqlpage.random_string(32), $user_profile->>'sub', $user_profile->>'email', $access_token->>'id_token', $user_profile->>'name', $user_profile->>'given_name', $user_profile->>'family_name', $user_profile->>'picture', current_timestamp)
     returning 'cookie' as component, 'session_id' as name, session_id as value, 'lax' as same_site;
 
 -- Redirect the user to the home page
